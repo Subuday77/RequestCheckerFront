@@ -1,0 +1,44 @@
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Request Checker</title>
+    <link href='https://fonts.googleapis.com/css?family=Nunito:400,300' type='text/css'>
+</head>
+
+<body>
+    <div class='instr'>
+        <div class='instructions'>
+            <h3 id='start'>Set this link</h3>
+        </div>
+        <div class='instructions'>
+            <h3 id='middle'>http://localhost:8080/request/call</h3>
+        </div>
+        <div class='instructions'>
+            <h3 id='end'> as callback for the request you want to check.</h3>
+        </div>
+    </div>
+    <div *ngIf="isResponseExists===true">
+        <h1>Last Request</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>IP Address</th>
+                    <th>Protocol</th>
+                    <th>Request Type</th>
+                    <th>Hash</th>
+                    <th>Request Body</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{response.remoteAddress}}</td>
+                    <td>{{response.protocol}}</td>
+                    <td>{{response.requestType}}</td>
+                    <td>{{response.hash}}</td>
+                    <td>{{response.requestBody}}</td>
+                </tr>
+            </tbody>
+
+        </table>
+    </div>
+</body>
