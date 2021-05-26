@@ -4,4 +4,5 @@ export class Response {
     public  remoteAddress: string;
     public  hash: string;
     public  requestBody: any;
+    public  timestamp: number;
 }

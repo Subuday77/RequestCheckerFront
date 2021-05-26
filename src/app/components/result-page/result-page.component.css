@@ -11,6 +11,58 @@
     border-radius: 20px;
 }
 
+.inline {
+    display: inline-block;
+}
+
+.clear,
+.refresh,
+.back {
+    position: absolute;
+    padding: 9px 29px 18px 29px;
+    color: black;
+    background-color: darkgray;
+    font-size: 18px;
+    text-align: center;
+    font-style: normal;
+    border-radius: 7px;
+    width: 8.7%;
+    border: 1px solid black;
+    border-width: 1px 1px 3px;
+    box-shadow: 0 -1px 0 rgba(255, 255, 255, 0.1) inset;
+    margin-top: 15px;
+}
+
+.clear:hover,
+.refresh:hover,
+.back:hover {
+    color: white;
+}
+
+.clear:focus,
+.refresh:focus,
+.back:focus {
+    background-color: darkgray;
+    border: 1px solid black;
+    border-width: 1px 1px 3px;
+    box-shadow: 0 -1px 0 rgba(255, 255, 255, 0.1) inset;
+}
+
+.clear:active,
+.refresh:active,
+.back:active {
+    border: 2px solid black;
+    background-color: rgb(107, 107, 107);
+}
+
+.refresh {
+    margin-left: 8.8%;
+}
+
+.back {
+    margin-left: 17.6%;
+}
+
 #middle {
     color: blue;
 }
@@ -24,7 +76,7 @@ thead {
 }
 
 tbody {
-    height: 100%;
+    height: 70%;
     overflow-y: scroll;
 }
 
@@ -39,6 +91,7 @@ th {
     font-size: larger;
     font-family: 'Gotu';
     text-align: center;
+    background-color: darkgray;
 }
 
 th,
@@ -47,4 +100,21 @@ td {
     max-width: 220px;
     min-width: auto;
     word-break: break-word;
+    border-radius: 5px;
+}
+
+#IP {
+    max-width: 35px;
+    text-align: center;
+}
+
+#protocol,
+#RT,
+#TS {
+    max-width: 25px;
+    text-align: center;
+}
+
+#hash {
+    max-width: 90px
 }

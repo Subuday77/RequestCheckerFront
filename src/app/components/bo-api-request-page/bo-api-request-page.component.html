@@ -1,0 +1,72 @@
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Request Checker</title>
+    <link href='https://fonts.googleapis.com/css?family=Nunito:400,300' type='text/css'>
+</head>
+
+<body>
+    <ngx-spinner type="timer">
+        <p style="color:white; font-size: x-large;">Processing {{secondsCounter}} seconds</p>
+    </ngx-spinner>
+    <h1>BO API Requests Checker</h1>
+    <div>
+        <button class="back" (click)="back()" style="margin-top: -60px;">Back</button>
+        <button class="clear" (click)="clear()" style="margin-top: -60px;">Clear</button>
+    </div>
+    <h2 class="dataSetHeader">Data Set</h2>
+    <div>
+        <select class="selectDataSet" (change)="prepareDataSet()" [(ngModel)]="selectedDataSet" [ngStyle]="{'color': selectedDataSet==='Click to select DataSet'? 'gray':''}">
+            <option [ngValue]="" disabled *ngIf='selectedDataSet==="Click to select DataSet"'>Click to select DataSet</option>    
+    <ng-container *ngFor="let data of allDataSets">        
+        <option value={{data}} [ngStyle]="{'color': 'black'}">{{data}}</option>
+    </ng-container>    
+</select>
+    </div>
+    <div class="userdata">
+        <h2 class="userInfo">User info</h2>
+        <input type="text" placeholder="API Access" style="width: 750px; margin-inline-start:300px;" [(ngModel)]="apiAccess"><br>
+        <input type="text" placeholder="API ID" [(ngModel)]="apiid"><br>
+        <input type="text" placeholder="API User" [(ngModel)]="apiUser">
+    </div>
+    <div class="goRight">
+        <div class="requestAria">
+            <h2 style="margin-right:540px">String to apply sha256</h2>
+            <textarea class="request" name="request" id="request" cols="80" rows="5" style="resize: none; font-size: larger;" readonly>{{dataRequest.toApplyEncoding}}</textarea>
+            <h2 style="margin-right:710px">Token</h2>
+            <textarea class="request" name="request" id="request" cols="80" rows="2" style="resize: none; font-size: larger;" readonly>{{dataRequest.token}}</textarea>
+            <h2 style="margin-right:655px">Final query</h2>
+            <textarea class="request" name="request" id="request" cols="80" rows="5" style="resize: none; font-size: larger;" readonly>{{dataRequest.query}}</textarea>
+
+        </div>
+    </div>
+    <div class="filters" *ngIf='selectedDataSet!="Click to select DataSet"'>
+        <h2>Filters</h2>
+        <table>
+            <tbody>
+                <tr *ngFor="let filter of this.dataSet.filters">
+                    <td class="checkbox" [ngStyle]="{'background-color': filter.mandatory? 'red' : ''}">
+                        <input type="checkbox" [(ngModel)]="filter.inUse" checked={{filter.inUse}} (click)="check(filter)">
+                    </td>
+                    <td>
+                        {{filter.name}}
+                    </td>
+                    <td>
+                        <input type="text" class="filterValue" [(ngModel)]="filter.value">
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <button class="submit" (click)="prepareRequest()" *ngIf='selectedDataSet!="Click to select DataSet"' [ngStyle]="{'margin-top': this.dataSet.filters.length===0? '-10px':''}">Build Request</button>
+        <button class="submit" (click)="sendRequest()" *ngIf='dataRequest.query!=undefined' [ngStyle]="{'margin-top': this.dataSet.filters.length===0? '-10px':'', 'margin-left':'170px'}">Send Request</button>
+        <button class="select" (click)="changeServer()" *ngIf="dataRequest.query!=undefined && dataRequest.integration" [ngStyle]="{'margin-top': this.dataSet.filters.length===0? '-10px':'', 'margin-left':'340px','background-color':'darkgreen'}">Int</button>
+        <button class="select" (click)="changeServer()" *ngIf="dataRequest.query!=undefined && !dataRequest.integration" [ngStyle]="{'margin-top': this.dataSet.filters.length===0? '-10px':'', 'margin-left':'340px','background-color':'red'}">Prod</button>
+
+    </div>
+    <!-- <div class="responseAria">
+        <textarea class="response" name="response" id="response" cols="80" rows="10" style="resize: none; font-size: larger;" readonly></textarea>
+    </div> -->
+
+
+</body>

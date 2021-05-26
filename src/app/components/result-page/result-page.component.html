@@ -8,37 +8,73 @@
 <body>
     <div class='instr'>
         <div class='instructions'>
-            <h3 id='start'>Set this link</h3>
+            <h3 id='start'>Set link</h3>
         </div>
         <div class='instructions'>
-            <h3 id='middle'>http://localhost:8080/request/call</h3>
+            <h3 id='middle'>https://request-checker2000.herokuapp.com/request/call</h3>
         </div>
         <div class='instructions'>
             <h3 id='end'> as callback for the request you want to check.</h3>
         </div>
     </div>
-    <div *ngIf="isResponseExists===true">
-        <h1>Last Request</h1>
+    <div class='inline'>
+        <button class="clear" (click)="clear()">Clear</button>
+    </div>
+    <div class='inline'>
+        <button class="refresh" (click)="getResult()">Refresh</button>
+    </div>
+    <div class='inline'>
+        <button class="back" (click)="back()">Back</button>
+    </div>
+    <div *ngIf="isResponseExists">
+        <div>
+            <h1 class="hdr1">Last Request</h1>
+        </div>
         <table>
             <thead>
                 <tr>
-                    <th>IP Address</th>
-                    <th>Protocol</th>
-                    <th>Request Type</th>
-                    <th>Hash</th>
+                    <th id="IP">IP Address</th>
+                    <th id="protocol">Protocol</th>
+                    <th id="RT">Request Type</th>
+                    <th id="hash">Hash</th>
                     <th>Request Body</th>
+                    <th id="TS">Timestamp</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td>{{response.remoteAddress}}</td>
-                    <td>{{response.protocol}}</td>
-                    <td>{{response.requestType}}</td>
-                    <td>{{response.hash}}</td>
+                    <td id="IP">{{response.remoteAddress}}</td>
+                    <td id="protocol">{{response.protocol}}</td>
+                    <td id="RT">{{response.requestType}}</td>
+                    <td id="hash">{{response.hash}}</td>
                     <td>{{response.requestBody}}</td>
+                    <td id="TS">{{response.timestamp}}</td>
                 </tr>
             </tbody>
 
+        </table>
+        <h1>All Requests</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th id="IP">IP Address</th>
+                    <th id="protocol">Protocol</th>
+                    <th id="RT">Request Type</th>
+                    <th id="hash">Hash</th>
+                    <th>Request Body</th>
+                    <th id="TS">Timestamp</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let response of responses">
+                    <td id="IP">{{response.remoteAddress}}</td>
+                    <td id="protocol">{{response.protocol}}</td>
+                    <td id="RT">{{response.requestType}}</td>
+                    <td id="hash">{{response.hash}}</td>
+                    <td>{{response.requestBody}}</td>
+                    <td id="TS">{{response.timestamp}}</td>
+                </tr>
+            </tbody>
         </table>
     </div>
 </body>

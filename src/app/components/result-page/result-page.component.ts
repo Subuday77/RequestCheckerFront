@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
 import { Response } from 'src/app/models/response';
 import { GetResultsService } from 'src/app/services/get-results.service';
+import Swal from 'sweetalert2'
 
 
 @Component({
@@ -12,19 +15,48 @@ export class ResultPageComponent implements OnInit {
 
   public response: Response;
   public isResponseExists = false;
+  public responses: Observable<Response[]>;
 
-  constructor(private getResults: GetResultsService) { }
+  constructor(private getResults: GetResultsService, private router:Router) { }
 
   ngOnInit(): void {
-
+    this.getResult();
   }
 
   getResult() {
     this.getResults.getResult().subscribe((result) => {
       this.response = result;
-      this.isResponseExists = true;
 
+      if (this.response.remoteAddress != null || this.response.protocol != null || this.response.requestType != null) {
+        this.isResponseExists = true;
+        this.getAllResults();
+      }
+      if (!this.isResponseExists) {
+        Swal.fire({
+          title: 'Requests not found',
+          text: 'Send request to the address above and push Refresh or reload the page',
+          icon: 'info',
+          confirmButtonText: 'OK',
+          allowOutsideClick: false,
+          confirmButtonColor: '#A9A9A9',
+
+        })
+      }
+    });
+  }
+  getAllResults() {
+    this.getResults.getAllResults().subscribe((result) => {
+      this.responses = result;
+      
     });
 
+  }
+  clear() {
+    this.getResults.clear().subscribe(() => {
+      this.isResponseExists = false;
+    });
+  }
+  back(){
+    this.router.navigate([''])
   }
 }
