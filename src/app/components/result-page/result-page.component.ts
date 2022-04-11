@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Response } from 'app/models/response';
+import { GetResultsService } from 'app/services/get-results.service';
 import { Observable } from 'rxjs';
-import { Response } from 'src/app/models/response';
-import { GetResultsService } from 'src/app/services/get-results.service';
 import Swal from 'sweetalert2'
 
 

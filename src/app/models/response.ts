@@ -5,4 +5,8 @@ export class Response {
     public  hash: string;
     public  requestBody: any;
     public  timestamp: number;
+
+    constructor() {};
+
+
 }

@@ -10,7 +10,7 @@
         "node_modules/stream-browserify"
       ],
     },
-    "baseUrl": "./",
+    "baseUrl":"src", //"./",
     "outDir": "./dist/out-tsc",
     "sourceMap": true,
     "declaration": false,
@@ -24,5 +24,9 @@
       "es2018",
       "dom"
     ]
+  },
+  "angularCompilerOptions": {
+    "fullTemplateTypeCheck": true,
+    "preserveWhitespaces": true           
   }
 }

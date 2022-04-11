@@ -1,13 +1,18 @@
+import { XmlParser } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { DataRequest } from 'app/models/data-request';
+import { DataSet } from 'app/models/data-set';
+import { Filter } from 'app/models/filter';
+import { GetResultsService } from 'app/services/get-results.service';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { DataRequest } from 'src/app/models/data-request';
-import { DataSet } from 'src/app/models/data-set';
-import { Filter } from 'src/app/models/filter';
-import { GetResultsService } from 'src/app/services/get-results.service';
+// import { DataRequest } from 'src/app/models/data-request';
+// import { DataSet } from 'src/app/models/data-set';
+// import { Filter } from 'src/app/models/filter';
+// import { GetResultsService } from 'src/app/services/get-results.service';
 // import * as txml from 'txml';
 import Swal from 'sweetalert2';
-import {Parser} from 'xml2js';
+import { Parser } from 'xml2js';
 
 
 @Component({
@@ -156,8 +161,12 @@ export class BoApiRequestPageComponent implements OnInit {
         break;
       case "round_details_url":
         var filterNames = ["OperatorID", "RoundID", "UID", "TableID"];
-        filterNames.forEach(filter => {
+        filterNames.forEach((filter, index) => {
           filtersToAdd.push(new Filter(filter, undefined));
+          if (filter === "RoundID" || filter === "OperatorID") {
+            filtersToAdd[index].mandatory = true;
+            filtersToAdd[index].inUse = true;
+          }
         });
         break;
       default:
@@ -204,17 +213,17 @@ export class BoApiRequestPageComponent implements OnInit {
           footer: `<p>LogID: ` + result.LogID + `</p>`,
           icon: "error"
         })
-      } else {        
+      } else {
         if (typeof (result) === 'string') {
           this.parseXml(result);
-          Swal.fire({
-            html: `<p style="text-align: left; font-size: 120%"><Strong>Done in ` + this.secondsCounter + ` seconds.<br>More details in browser's console.</Strong><br></p>
-             <p style="text-align: left;">` + result + `</p>`,
-            width: 1200
-          });
+          // Swal.fire({
+          //   html: `<p style="text-align: left; font-size: 120%"><Strong>Done in ` + this.secondsCounter + ` seconds.<br>More details in browser's console.</Strong><br></p>
+          //    <p style="text-align: left;">` + result + `</p>`,
+          //   width: 1200
+          // });
         } else {
           Swal.fire({
-            html: `<p style="text-align: left; font-size: 120%"><Strong>Done in ` + this.secondsCounter + ` seconds.<br>More details in browser's console.</Strong><br></p>
+            html: `<p style="text-align: left; font-size: 120%"><Strong>Done in ` + this.secondsCounter + ` seconds.<br>Data type: JSON<br>More details in browser's console.</Strong><br></p>
          <p style="text-align: left;">` + JSON.stringify(result.data) + `</p>`,
             width: 1200
           });
@@ -232,7 +241,7 @@ export class BoApiRequestPageComponent implements OnInit {
       } else {
         if (error.error.text != undefined) {
           Swal.fire({
-            html: `<p style="text-align: left; font-size: 120%"><Strong>Done in ` + this.secondsCounter + ` seconds.<br>More details in browser's console.</Strong><br></p>
+            html: `<p style="text-align: left; font-size: 120%"><Strong>Done in ` + this.secondsCounter + ` seconds.<br>Data type: XML/Text<br>More details in browser's console.</Strong><br></p>
          <p style="text-align: left;">` + error.error.text + `</p>`,
             width: 1200
           });
@@ -246,17 +255,20 @@ export class BoApiRequestPageComponent implements OnInit {
     });
   }
 
-  parseXml (xmlStr) {
+  parseXml(xmlStr) {
     // const txml = require('txml');
     var result;
     var error;
     var parser = require('xml2js');
-    parser.Parser().parseString(xmlStr, (e, r) => {result = r, error = e});
-    // console.log(txml.parse(xmlStr));
-    console.log(result)
-    console.log(error)
-    // return result;
-}
+    parser.Parser().parseString(xmlStr, (e, r) => { result = r, error = e });
+    Swal.fire({
+      html: `<p style="text-align: left; font-size: 120%"><Strong>Done in ` + this.secondsCounter + ` seconds.<br>Data type: XML<br>More details in browser's console.</Strong><br></p>
+   <p style="text-align: left;">` + JSON.stringify(result) + `</p>`,
+      width: 1200
+    });
+    // console.log(result)
+    // console.log(error)    
+  }
 
   async generateToken(toApplyEncoding: string): Promise<string> {
     const observable = this.getResults.generateToken(toApplyEncoding);
